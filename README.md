@@ -134,3 +134,5 @@ graph TD;
     Регистрация-->Профиль;
     Регистрация-->Главная
 ```
+## База данных
+![erd-web](https://github.com/Mb-NextTime/cmc-web-prac/assets/98520563/a6c9e724-3855-4a9f-9c6a-f25760837d37)
