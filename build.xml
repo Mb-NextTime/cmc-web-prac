@@ -1,0 +1,30 @@
+<project name="Database" default="db_init">
+    <target name="db_init">
+        <exec executable="/bin/bash" failonerror="true">
+            <arg value="database/launch.sh"/>
+        </exec>
+        <exec executable="sleep">
+            <arg value="2"/>
+        </exec>
+        <exec executable="/bin/bash" failonerror="true">
+            <arg value="database/send_request.sh"/>
+            <arg value="/database/create.sql"/>
+        </exec>
+        <exec executable="/bin/bash" failonerror="true">
+            <arg value="database/send_request.sh"/>
+            <arg value="/database/init.sql"/>
+        </exec>
+        <exec executable="/bin/bash" failonerror="true">
+            <arg value="database/send_request.sh"/>
+            <arg value="/database/display.sql"/>
+        </exec>
+
+    </target>
+
+    <target name="db_clean">
+        <exec executable="podman" failonerror="true">
+            <arg value="stop"/>
+            <arg value="postgres"/>
+        </exec>
+    </target>
+</project>

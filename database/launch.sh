@@ -2,7 +2,8 @@
 
 SCRIPT_DIR="$(readlink -f $( dirname "$0" ) )"
 
-podman run -it --rm \
+podman run --rm -d \
+    -v $SCRIPT_DIR:/database \
     --network host \
     --name postgres \
     -e POSTGRES_USER=postgres \
