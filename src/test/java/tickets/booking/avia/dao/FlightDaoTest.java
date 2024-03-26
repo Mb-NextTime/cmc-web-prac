@@ -105,7 +105,7 @@ class FlightDaoTest {
     }
 
     @Test
-    void filterByTime() {
+    void filter() {
         var dao = new FlightDao();
         var flights = dao.filter(null, null, null, null);
         assertEquals(dao.findAll().size(), flights.size());
