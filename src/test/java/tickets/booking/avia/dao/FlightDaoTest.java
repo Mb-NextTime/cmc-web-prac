@@ -99,6 +99,7 @@ class FlightDaoTest {
         var fl = dao.findById(1);
         assertNotEquals("testCompany", fl.getCompany());
         fl.setCompany("testCompany");
+        dao.update(fl);
         fl = dao.findById(1);
         assertEquals("testCompany", fl.getCompany());
     }
