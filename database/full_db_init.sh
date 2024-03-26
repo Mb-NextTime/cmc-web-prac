@@ -6,7 +6,7 @@ echo $SCRIPT_DIR
 cd $SCRIPT_DIR
 
 ./launch.sh
-sleep 2
+sleep 4
 ./send_request.sh ./database/create.sql
 ./send_request.sh ./database/init.sql
 
