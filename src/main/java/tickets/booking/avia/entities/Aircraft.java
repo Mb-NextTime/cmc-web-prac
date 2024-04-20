@@ -1,11 +1,12 @@
 package tickets.booking.avia.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "aircrafts")
 public class Aircraft {
