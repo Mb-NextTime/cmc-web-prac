@@ -51,7 +51,8 @@ INSERT INTO flights (company, scheduled_departure, scheduled_arrival, departure_
 
 INSERT INTO bookings (customer_id, flight_id, seat_id, price) VALUES
     (1, 1, 4, 400),
-    (2, 2, 5, 900),
+    (2, 2, 10, 900),
+    (2, 2, 11, 1100),
     (4, 3, 11, 1200);
 
 commit;

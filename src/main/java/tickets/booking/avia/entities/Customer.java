@@ -3,6 +3,7 @@ package tickets.booking.avia.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -30,5 +31,5 @@ public class Customer {
     private Long bonuses;
 
     @OneToMany(mappedBy = "customer")
-    private Set<Booking> bookings;
+    private List<Booking> bookings;
 }

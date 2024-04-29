@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -43,5 +44,5 @@ public class Flight {
     private Integer basePrice;
 
     @OneToMany(mappedBy = "flight")
-    private Set<Booking> bookings;
+    private List<Booking> bookings;
 }
