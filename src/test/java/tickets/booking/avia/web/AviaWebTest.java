@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -131,7 +130,7 @@ public class AviaWebTest {
     @Test
     @Transactional
     @Rollback
-    void BookFlight() throws Exception {
+    void SingleBookFlight() throws Exception {
         WebDriver driver = new FirefoxDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         try {
@@ -141,6 +140,10 @@ public class AviaWebTest {
             driver.findElement(By.name("password")).sendKeys("123456");
             driver.findElement(By.tagName("button")).click();
 
+            driver.findElement(By.linkText("Profile")).click();
+            assertEquals(1, driver.findElements(By.tagName("a")).size());
+
+            driver.get("http://localhost:" + port);
             driver.findElement(By.name("dCity")).sendKeys("Moscow");
             driver.findElement(By.name("aCity")).sendKeys("Oslo");
             ((JavascriptExecutor)driver).executeScript ("document.getElementsByName('dDate')[0].valueAsNumber = Date.parse('2023-11-21');");
@@ -149,11 +152,123 @@ public class AviaWebTest {
             driver.findElement(By.id("flight-5")).click();
 
             driver.findElement(By.name("0_0")).click();
-            driver.findElement(By.name("0_1")).click();
             driver.findElement(By.tagName("button")).click();
 
-            assertEquals(3, driver.findElements(By.tagName("a")).size());
+            assertEquals(2, driver.findElements(By.tagName("a")).size());
 
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void MultipleBookFlightFromProfile() throws Exception {
+        WebDriver driver = new FirefoxDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            driver.get("http://localhost:" + port);
+            driver.findElement(By.linkText("Login")).click();
+            driver.findElement(By.name("email")).sendKeys("sam@mail.com");
+            driver.findElement(By.name("password")).sendKeys("123456");
+            driver.findElement(By.tagName("button")).click();
+
+            driver.findElement(By.linkText("Profile")).click();
+            assertEquals(2, driver.findElements(By.tagName("a")).size());
+
+            driver.findElement(By.partialLinkText("0:1, price: $900")).click();
+
+            driver.findElement(By.name("0_0")).click();
+            driver.findElement(By.name("1_1")).click();
+            driver.findElement(By.tagName("button")).click();
+
+            assertEquals(4, driver.findElements(By.tagName("a")).size());
+
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void Registration() throws Exception {
+        WebDriver driver = new FirefoxDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            // check there is no such customer yet
+            driver.get("http://localhost:" + port);
+            driver.findElement(By.linkText("Login")).click();
+            driver.findElement(By.name("email")).sendKeys("example@mail.com");
+            driver.findElement(By.name("password")).sendKeys("123456");
+            driver.findElement(By.tagName("button")).click();
+            assertFalse(driver.getPageSource().contains("Profile"));
+
+            driver.get("http://localhost:" + port);
+            driver.findElement(By.linkText("Register")).click();
+            driver.findElement(By.name("name")).sendKeys("example");
+            driver.findElement(By.name("email")).sendKeys("example@mail.com");
+            driver.findElement(By.name("password")).sendKeys("123456");
+            driver.findElement(By.tagName("button")).click();
+
+            driver.findElement(By.linkText("Profile")).click();
+            assertTrue(driver.getPageSource().contains("Your name: example"));
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void FailedRegistration() throws Exception {
+        WebDriver driver = new FirefoxDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            driver.get("http://localhost:" + port);
+            driver.findElement(By.linkText("Register")).click();
+            driver.findElement(By.name("name")).sendKeys("1");
+            driver.findElement(By.name("email")).sendKeys("1@mail.com");
+            driver.findElement(By.name("password")).sendKeys("1");
+            driver.findElement(By.tagName("button")).click();
+
+            driver.findElement(By.linkText("Logout")).click();
+
+            driver.findElement(By.linkText("Register")).click();
+            driver.findElement(By.name("name")).sendKeys("1");
+            driver.findElement(By.name("email")).sendKeys("1@mail.com");
+            driver.findElement(By.name("password")).sendKeys("1");
+            driver.findElement(By.tagName("button")).click();
+
+            assertFalse(driver.getPageSource().contains("Profile"));
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void RegisterThenLogin() throws Exception {
+        WebDriver driver = new FirefoxDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            driver.get("http://localhost:" + port);
+            driver.findElement(By.linkText("Register")).click();
+            driver.findElement(By.name("name")).sendKeys("2");
+            driver.findElement(By.name("email")).sendKeys("2@mail.com");
+            driver.findElement(By.name("password")).sendKeys("2");
+            driver.findElement(By.tagName("button")).click();
+
+            driver.findElement(By.linkText("Logout")).click();
+
+            driver.findElement(By.linkText("Login")).click();
+            driver.findElement(By.name("email")).sendKeys("2@mail.com");
+            driver.findElement(By.name("password")).sendKeys("2");
+            driver.findElement(By.tagName("button")).click();
+
+            assertTrue(driver.getPageSource().contains("Profile"));
         } finally {
             driver.quit();
         }
