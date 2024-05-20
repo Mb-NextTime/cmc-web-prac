@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <html lang="en">
     <head>
@@ -127,14 +129,18 @@
                                 <img alt="logo" src="public/logo.svg" class="home-logo" />
                                 <!-- Navigation bar -->
                                 <div data-thq="thq-burger-menu" class="home-menu">
-                                    <div class="home-links"><span class="home-text link">Features</span><span class="link">How it works</span><span class="link">Prices</span><span class="home-text3 link">Contact</span></div>
-                                    <button class="home-hamburger button">
-                                        <svg viewBox="0 0 1024 1024" class="home-icon">
-                                            <path
-                                                d="M128 554.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 298.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667zM128 810.667h768c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-768c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"
-                                            ></path>
-                                        </svg>
-                                    </button>
+                                    <div class="home-links">
+                                        <c:choose>
+                                            <c:when test="${user == null}">
+                                                <a href="/authentication/login"><span class="home-text link">Login</span></a>
+                                                <a href="/authentication/register"><span class="home-text link">Register</span></a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="/profile"><span class="home-text link">Profile</span></a>
+                                                <a href="/authentication/logout"><span class="home-text link">Logout</span></a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
                                 </div>
                             </header>
                             <div class="home-center">

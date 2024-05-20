@@ -1,12 +1,12 @@
 begin;
 
 INSERT INTO customers (customer_name, email, passwd_hash, bonuses) VALUES
-    ('John', 'john@mail.com', 123456, 0),
-    ('Sam', 'sam@mail.com', 123456, 0),
-    ('Nick', 'nick@mail.com', 123456, 0),
-    ('Max', 'max@mail.com', 123456, 0),
-    ('Mai', 'mai@mail.com', 123456, 0),
-    ('Ann', 'al@cash.sp.irt', 123456, 0);
+    ('John', 'john@mail.com', '$2a$12$PjkKF8t.qBHhvPOZbOHMTujg7ZSuVYpeS2YxnIXG/th2IRAePmhPS', 0),
+    ('Sam', 'sam@mail.com', '$2a$12$PjkKF8t.qBHhvPOZbOHMTujg7ZSuVYpeS2YxnIXG/th2IRAePmhPS', 0),
+    ('Nick', 'nick@mail.com', '$2a$12$PjkKF8t.qBHhvPOZbOHMTujg7ZSuVYpeS2YxnIXG/th2IRAePmhPS', 0),
+    ('Max', 'max@mail.com', '$2a$12$PjkKF8t.qBHhvPOZbOHMTujg7ZSuVYpeS2YxnIXG/th2IRAePmhPS', 0),
+    ('Mai', 'mai@mail.com', '$2a$12$PjkKF8t.qBHhvPOZbOHMTujg7ZSuVYpeS2YxnIXG/th2IRAePmhPS', 0),
+    ('Ann', 'al@cash.sp.irt', '$2a$12$PjkKF8t.qBHhvPOZbOHMTujg7ZSuVYpeS2YxnIXG/th2IRAePmhPS', 0);
 
 INSERT INTO aircrafts (aircraft_name, n_rows, n_cols) VALUES
     ('Boeing-747', 2, 2),

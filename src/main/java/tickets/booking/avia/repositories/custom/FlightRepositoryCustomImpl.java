@@ -11,6 +11,7 @@ import tickets.booking.avia.entities.Flight;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FlightRepositoryCustomImpl implements FlightRepositoryCustom {
 
@@ -31,14 +32,15 @@ public class FlightRepositoryCustomImpl implements FlightRepositoryCustom {
         if (timeHigh != null) {
             preds.add(cb.lessThan(root.get("scheduledDeparture"), timeHigh));
         }
-        if (departureCity != null) {
+        if (departureCity != null && !Objects.equals(departureCity, "")) {
             preds.add(cb.equal(root.get("departureCity").get("name"), departureCity));
         }
-        if (arrivalCity != null) {
+        if (arrivalCity != null && !Objects.equals(arrivalCity, "")) {
             preds.add(cb.equal(root.get("arrivalCity").get("name"), arrivalCity));
         }
         criteria.where(preds.toArray(Predicate[]::new));
 
-        return entityManager.createQuery(criteria).getResultList();
+        var result = entityManager.createQuery(criteria).getResultList();
+        return result;
     }
 }

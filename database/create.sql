@@ -4,7 +4,7 @@ CREATE TABLE customers (
     customer_id serial PRIMARY KEY,
     customer_name text NOT NULL,
     email text NOT NULL UNIQUE,
-    passwd_hash bigint NOT NULL,
+    passwd_hash varchar NOT NULL,
     bonuses bigint NOT NULL
 );
 

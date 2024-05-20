@@ -25,7 +25,7 @@ public class Customer {
     private String email;
 
     @Column(name = "passwd_hash", nullable = false)
-    private Long passwdHash;
+    private String passwdHash;
 
     @Column(name = "bonuses", nullable = false)
     private Long bonuses;

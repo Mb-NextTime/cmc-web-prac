@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import tickets.booking.avia.services.CustomerService;
 import tickets.booking.avia.services.FlightService;
 
 import java.sql.Timestamp;
@@ -15,6 +16,8 @@ import java.text.SimpleDateFormat;
 @Controller
 @RequestMapping("/search")
 public class SearchResultController {
+    @Autowired
+    CustomerService customerService;
 
     @Autowired
     private FlightService flightService;
@@ -24,7 +27,7 @@ public class SearchResultController {
                                @RequestParam String dDate, @RequestParam String aDate,
                                RedirectAttributes redirectAttributes)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Timestamp dStamp = null;
         Timestamp aStamp = null;
@@ -46,8 +49,16 @@ public class SearchResultController {
     }
 
     @GetMapping("/result")
-    public String searchResult(Model model)
+    public String searchResult(Model model,
+                               @CookieValue(defaultValue="") String email,
+                               @CookieValue(defaultValue="") String password)
     {
+        if (!email.isEmpty()) {
+            model.addAttribute("user", customerService.loginCustomer(email, password).orElse(null));
+        }
+        else {
+            model.addAttribute("user", null);
+        }
         return "search-result";
     }
 }
